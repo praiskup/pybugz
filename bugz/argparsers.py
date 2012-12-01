@@ -188,6 +188,8 @@ def make_post_parser(subparsers):
 		help = 'assign bug to someone other than the default assignee')
 	post_parser.add_argument('--cc',
 		help = 'add a list of emails to CC list')
+	post_parser.add_argument('-U', '--url',
+		help = 'set URL field of bug')
 	post_parser.add_argument('-F' , '--description-from',
 		help = 'description from contents of file')
 	post_parser.add_argument('--append-command',
