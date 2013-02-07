@@ -21,6 +21,7 @@ setup(
 	data_files = [
 		('etc/pybugz', ['conf/pybugz.conf']),
 		('etc/pybugz/conf.d', ['conf/conf.d/redhat.conf', 'conf/conf.d/gentoo.conf']),
+		('/usr/share/man/man1', ['man/bugz.1']),
 	],
 	cmdclass = {'build_py': build_py, 'build_scripts': build_scripts},
 )
