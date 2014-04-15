@@ -28,7 +28,6 @@ from bugz.argparsers import make_parser
 from bugz.cli import PrettyBugz
 from bugz.errhandling import BugzError
 from bugz.log import log_error, log_info
-from bugz.configfile import get_config
 
 def main():
 
