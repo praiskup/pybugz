@@ -252,7 +252,7 @@ def make_search_parser(subparsers):
 		help='show status of bugs')
 	search_parser.add_argument('--show-fields',
 		action = 'store_true',
-		help='show possible fields to be printed')
+		help='list all Bugzilla fields which may be printed, TEMPORARY flag')
 	search_parser.add_argument('--format',
 		help='set format of output, UNSTABLE')
 	search_parser.add_argument('--items',
