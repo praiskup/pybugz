@@ -154,22 +154,19 @@ class PrettyBugz:
 		# get proper 'Connection' instance
 		connection = settings['connections'][conn_name]
 
-		def fix_con(con, name, opt):
-			if opt != None:
-				setattr(con, name, opt)
-				con.option_change = True
+		def fix_con(con, name, opt=None):
+			if hasattr(args, name):
+				if opt == None:
+					opt = getattr(args, name)
+				if opt != None:
+					setattr(con, name, opt)
+					con.option_change = True
 
-		fix_con(connection, "base", args.base)
-		fix_con(connection, "quiet", args.quiet)
-		fix_con(connection, "columns", args.columns)
+		for key in [ "base", "quiet", "columns", "user", "password",
+				"passwordcmd", "skip_auth", "encoding", "format", "items" ]:
+			fix_con(connection, key)
+
 		connection.columns = int(connection.columns) or terminal_width()
-		fix_con(connection, "user", args.user)
-		fix_con(connection, "password", args.password)
-		fix_con(connection, "password_cmd", args.passwordcmd)
-		fix_con(connection, "skip_auth", args.skip_auth)
-		fix_con(connection, "encoding", args.encoding)
-		fix_con(connection, "format", args.format)
-		fix_con(connection, "items", args.items)
 
 		# now must the "connection" be complete
 
@@ -225,11 +222,11 @@ class PrettyBugz:
 
 		# prompt for password if we were not supplied with it
 		if not self.connection.password:
-			if not self.connection.password_cmd:
+			if not self.connection.passwordcmd:
 				log_info('No password given.')
 				self.connection.password = getpass.getpass()
 			else:
-				cmd = self.connection.password_cmd.split()
+				cmd = self.connection.passwordcmd.split()
 				stdout = stdout=subprocess.PIPE
 				process = subprocess.Popen(cmd, shell=False, stdout=stdout)
 				self.password, _ = process.communicate()

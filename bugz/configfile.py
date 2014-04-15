@@ -12,7 +12,7 @@ class Connection:
 	columns = 0
 	user = None
 	password = None
-	password_cmd = None
+	passwordcmd = None
 	dbglvl = 0
 	quiet = None
 	skip_auth = None

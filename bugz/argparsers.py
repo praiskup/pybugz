@@ -270,7 +270,6 @@ def make_parser():
 	parser.add_argument('--connection',
 		help = 'use [connection] section of your configuration file')
 	parser.add_argument('-b', '--base',
-		default = None,
 		help = 'base URL of Bugzilla')
 	parser.add_argument('-u', '--user',
 		help = 'username for commands requiring authentication')
@@ -280,11 +279,9 @@ def make_parser():
 		help = 'password command to evaluate for commands requiring authentication')
 	parser.add_argument('-q', '--quiet',
 		action='store_true',
-		default=None,
 		help = 'quiet mode')
 	parser.add_argument('-d', '--debug',
 		type=int,
-		default=None,
 		help = 'debug level (from 0 to 3)')
 	parser.add_argument('--columns',
 		type = int,
