@@ -250,6 +250,13 @@ def make_search_parser(subparsers):
 	search_parser.add_argument('--show-status',
 		action = 'store_true',
 		help='show status of bugs')
+	search_parser.add_argument('--show-fields',
+		action = 'store_true',
+		help='show possible fields to be printed')
+	search_parser.add_argument('--format',
+		help='set format of output, UNSTABLE')
+	search_parser.add_argument('--items',
+		help='set fields to be printed (comma separated), UNSTABLE')
 	search_parser.set_defaults(func = PrettyBugz.search)
 
 def make_parser():

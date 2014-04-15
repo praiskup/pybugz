@@ -154,7 +154,7 @@ class PrettyBugz:
 		# get proper 'Connection' instance
 		connection = settings['connections'][conn_name]
 
-		def fix_con(con, name,opt):
+		def fix_con(con, name, opt):
 			if opt != None:
 				setattr(con, name, opt)
 				con.option_change = True
@@ -168,6 +168,8 @@ class PrettyBugz:
 		fix_con(connection, "password_cmd", args.passwordcmd)
 		fix_con(connection, "skip_auth", args.skip_auth)
 		fix_con(connection, "encoding", args.encoding)
+		fix_con(connection, "format", args.format)
+		fix_con(connection, "items", args.items)
 
 		# now must the "connection" be complete
 
@@ -262,7 +264,7 @@ class PrettyBugz:
 		valid_keys = ['alias', 'assigned_to', 'component', 'creator',
 			'limit', 'offset', 'op_sys', 'platform',
 			'priority', 'product', 'resolution',
-			'severity', 'status', 'version', 'whiteboard']
+			'severity', 'status', 'version', 'whiteboard', 'format', 'items' ]
 
 		search_opts = sorted([(opt, val) for opt, val in args.__dict__.items()
 			if val is not None and opt in valid_keys])
@@ -307,7 +309,7 @@ class PrettyBugz:
 		if not len(result):
 			log_info('No bugs found.')
 		else:
-			self.listbugs(result, args.show_status)
+			self.listbugs(result, args.show_status, args)
 
 	def get(self, args):
 		""" Fetch bug details given the bug id """
@@ -704,7 +706,32 @@ class PrettyBugz:
 		result =  self.bzcall(self.bz.Bug.add_attachment, params)
 		log_info("'%s' has been attached to bug %s" % (filename, bugid))
 
-	def listbugs(self, buglist, show_status=False):
+	def listbugs(self, buglist, show_status=False, args=None):
+		if args and args.show_fields:
+			print buglist[0].keys()
+
+		def get_fields(bug, keys):
+			fields = []
+			for key in keys:
+				if isinstance(bug[key],list):
+					fields.append(bug[key][0])
+				else:
+					fields.append(bug[key])
+			return fields
+
+		format = ""
+		keys = []
+		if self.connection.format and self.connection.items:
+			format = self.connection.format
+			keys = self.connection.items.split(',')
+			log_info("format: \"%s\"" % format)
+			log_info("items: \"%s\"" % self.connection.items)
+
+		if format != "":
+			for bug in buglist:
+				print format % tuple(get_fields(bug, keys))
+			return
+
 		for bug in buglist:
 			bugid = bug['id']
 			status = bug['status']

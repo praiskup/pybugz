@@ -80,6 +80,8 @@ def handle_connection(settings, context, stack, parser, name):
 	fill(connection, "encoding")
 	fill(connection, "columns")
 	fill(connection, "quiet")
+	fill(connection, "format")
+	fill(connection, "items")
 
 	if parser.has_option(name, 'query_statuses'):
 		line = parser.get(name, 'query_statuses')
