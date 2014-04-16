@@ -20,6 +20,8 @@ class Connection:
 	cookie_file = "~/.bugz_cookie"
 	option_change = False
 	query_statuses = []
+	format = None
+	items = None
 
 	def dump(self):
 		log_info("Using [{0}] ({1})".format(self.name, self.base))
